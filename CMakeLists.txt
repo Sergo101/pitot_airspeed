@@ -31,9 +31,9 @@ set(cpu_PARAMS
     # -mcpu, -mfloat, -mfloat-abi, ...
 )
 
-# Sources
-set(sources_SRCS
-${CMAKE_CURRENT_LIST_DIR}/Src/system_stm32f4xx.c
+file(GLOB sources_SRCS
+${CMAKE_CURRENT_LIST_DIR}/Src/*.c
+
 )
 
 # Include directories for all compilers
@@ -57,9 +57,9 @@ set(link_DIRS
 "${CMAKE_CURRENT_SOURCE_DIR}/drivers/HAL")
 
 set(link_LIBS
-ll_stm32f4xx
+# ll_stm32f4xx
 cmsis_stm32f4xx
-# hal_stm32f4xx
+hal_stm32f4xx
 )
 
 # Linker script
