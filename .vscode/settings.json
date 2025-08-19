@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "cts_config.txt": "diff",
+        "*.sns": "diff",
+        "sns.txt": "diff",
+        "time.h": "c",
+        "stm32f4xx_hal_adc.h": "c",
+        "stm32f4xx_ll_gpio.h": "c",
+        "system_stm32f4xx.h": "c",
+        "stm32f4xx_ll_rcc.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
+}
