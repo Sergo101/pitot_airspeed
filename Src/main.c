@@ -22,7 +22,13 @@
 #include "i2c.h"
 #include "gpio.h"
 
+#include "ssd1306.h"
+
+#include <stdio.h>
+
 void SystemClock_Config(void);
+
+uint8_t data[32];
 
 /**
   * @brief  The application entry point.
@@ -39,6 +45,12 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_I2C1_Init();
+
+  SSD1306_Init();
+  SSD1306_Fill(SSD1306_COLOR_BLACK);
+  sprintf ((char*)data, "Dushnometr");
+  SSD1306_GotoXY(0, 0);
+  SSD1306_Puts((char*)data, &Font_11x18, SSD1306_COLOR_WHITE);
 
   /* Infinite loop */
   while (1)
@@ -72,7 +84,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 16;
   RCC_OscInitStruct.PLL.PLLN = 168;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {

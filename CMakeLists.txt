@@ -60,6 +60,7 @@ set(link_LIBS
 # ll_stm32f4xx
 cmsis_stm32f4xx
 hal_stm32f4xx
+ssd1306
 )
 
 # Linker script
@@ -79,6 +80,7 @@ include("cmake/vscode_generated.cmake")
 add_subdirectory(drivers/HAL)
 add_subdirectory(drivers/LL)
 add_subdirectory(drivers/CMSIS)
+add_subdirectory(ssd1306)
 
 # Link directories setup
 # Must be before executable is added

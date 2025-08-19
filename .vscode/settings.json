@@ -12,7 +12,8 @@
         "stm32f4xx_hal_conf.h": "c",
         "stm32f4xx_hal_rcc.h": "c",
         "gpio.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "stdlib.h": "c"
     },
-    "cortex-debug.variableUseNaturalFormat": false
+    "cortex-debug.variableUseNaturalFormat": true
 }
