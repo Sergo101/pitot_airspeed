@@ -43,14 +43,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
+  // MX_DMA_Init();
   MX_I2C1_Init();
 
   SSD1306_Init();
   SSD1306_Fill(SSD1306_COLOR_BLACK);
-  sprintf ((char*)data, "Dushnometr");
+  sprintf ((char*)data, "ssd1315");
   SSD1306_GotoXY(0, 0);
   SSD1306_Puts((char*)data, &Font_11x18, SSD1306_COLOR_WHITE);
+  sprintf ((char*)data, "test");
+  SSD1306_GotoXY(0, 20);
+  SSD1306_Puts((char*)data, &Font_11x18, SSD1306_COLOR_WHITE);
+  SSD1306_UpdateScreen();
 
   /* Infinite loop */
   while (1)

@@ -82,8 +82,8 @@ SDA        |PB7          |Serial data line
 
 /* I2C address */
 #ifndef SSD1306_I2C_ADDR
-// #define SSD1306_I2C_ADDR         0x78
-#define SSD1306_I2C_ADDR       0x7A
+#define SSD1306_I2C_ADDR         0x78
+// #define SSD1306_I2C_ADDR       0x7A
 #endif
 
 /* SSD1306 settings */
@@ -105,6 +105,7 @@ SDA        |PB7          |Serial data line
 #endif
 
 // Commands
+#define SSD1315_READWRITE_CMD                0x80
 #define SSD1306_SETCONTRAST                  0x81
 #define SSD1306_DISPLAYALLON_RESUME          0xA4
 #define SSD1306_DISPLAYALLON                 0xA5

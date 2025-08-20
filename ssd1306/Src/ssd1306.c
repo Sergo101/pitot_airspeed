@@ -49,7 +49,8 @@ static SSD1306_t SSD1306;
 
 void SSD1306_writecommand ( uint8_t command) 
 {
-	volatile HAL_StatusTypeDef res = HAL_I2C_Master_Transmit (SSD1306_I2C, SSD1306_I2C_ADDR, &command, 1, SSD1306_I2C_TIMEOUT);
+	// volatile HAL_StatusTypeDef res = HAL_I2C_Master_Transmit (SSD1306_I2C, SSD1306_I2C_ADDR, &command, 1, SSD1306_I2C_TIMEOUT);
+	volatile HAL_StatusTypeDef res = HAL_I2C_Mem_Write (SSD1306_I2C, SSD1306_I2C_ADDR, 0, 1, &command, 1, SSD1306_I2C_TIMEOUT);
   __NOP();
 	//HAL_I2C_Transmit ( SSD1306_I2C, SSD1306_I2C_ADDR,  &command, 1, SSD1306_I2C_TIMEOUT );
 }
@@ -57,23 +58,23 @@ void SSD1306_writecommand ( uint8_t command)
 
 uint8_t SSD1306_Init(void) 
 {
-	HAL_Delay(100);
+	HAL_Delay(20);
     /* Init LCD */
 	SSD1306_writecommand (SSD1306_DISPLAYOFF);
 	SSD1306_writecommand (SSD1306_SETDISPLAYCLOCKDIV);
   SSD1306_writecommand (0x00);
-  SSD1306_writecommand (SSD1306_SETMULTIPLEX);
+	SSD1306_writecommand (SSD1306_SETMULTIPLEX);
   SSD1306_writecommand (MULTIPLEX);
-  SSD1306_writecommand (SSD1306_SETDISPLAYOFFSET);
+	SSD1306_writecommand (SSD1306_SETDISPLAYOFFSET);
   SSD1306_writecommand (0x00);
-  SSD1306_writecommand (SSD1306_SETSTARTLINE | 0x00);
-    // We use internal charge pump
+	SSD1306_writecommand (SSD1306_SETSTARTLINE | 0x00);
+	   // We use internal charge pump
   SSD1306_writecommand (SSD1306_CHARGEPUMP);
   SSD1306_writecommand (0x14);
-    // Horizontal memory mode
+	   // Horizontal memory mode
   SSD1306_writecommand (SSD1306_MEMORYMODE);
   SSD1306_writecommand (0x00);
-  SSD1306_writecommand (SSD1306_SEGREMAP | 0x01);
+	SSD1306_writecommand (SSD1306_SEGREMAP | 0x01);
 	#ifdef TURN_90_DEGREE
 	SSD1306_writecommand (SSD1306_COMSCANINC);
 	#else
@@ -81,22 +82,21 @@ uint8_t SSD1306_Init(void)
 	#endif
 	SSD1306_writecommand (SSD1306_SETCOMPINS);
   SSD1306_writecommand (COMPINS);//for 128x32 0x02, for 128x64 0x12;
-  SSD1306_writecommand (SSD1306_DEACTIVATE_SCROLL);
-  SSD1306_writecommand (SSD1306_COLUMNADDR);
+	SSD1306_writecommand (SSD1306_DEACTIVATE_SCROLL);
+	SSD1306_writecommand (SSD1306_COLUMNADDR);
   SSD1306_writecommand (0x00);
   SSD1306_writecommand (127);
-  SSD1306_writecommand (SSD1306_PAGEADDR);
+	SSD1306_writecommand (SSD1306_PAGEADDR);
   SSD1306_writecommand (0x00);
-    SSD1306_writecommand (0x07);
-    // Max contrast
+  SSD1306_writecommand (0x07);
+	   // Max contrast
   SSD1306_writecommand (SSD1306_SETCONTRAST);
   SSD1306_writecommand (0xCF);
-  SSD1306_writecommand (SSD1306_SETPRECHARGE);
+	SSD1306_writecommand (SSD1306_SETPRECHARGE);
   SSD1306_writecommand (0xF1);
-  SSD1306_writecommand (SSD1306_SETVCOMDETECT);
+	SSD1306_writecommand (SSD1306_SETVCOMDETECT);
   SSD1306_writecommand (0x40);
-  SSD1306_writecommand (SSD1306_DISPLAYALLON_RESUME);
-
+	SSD1306_writecommand (SSD1306_DISPLAYALLON_RESUME);
 	SSD1306_writecommand (SSD1306_DISPLAYON);
 	
 	/* Clear screen */
