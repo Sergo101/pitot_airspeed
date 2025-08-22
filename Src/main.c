@@ -28,6 +28,9 @@
 
 void SystemClock_Config(void);
 
+
+extern I2C_HandleTypeDef hi2c3;
+
 uint8_t data[32];
 
 /**
@@ -45,6 +48,7 @@ int main(void)
   MX_GPIO_Init();
   // MX_DMA_Init();
   MX_I2C1_Init();
+  MX_I2C3_Init();
 
   SSD1306_Init();
   SSD1306_Fill(SSD1306_COLOR_BLACK);
@@ -55,12 +59,35 @@ int main(void)
   SSD1306_GotoXY(0, 20);
   SSD1306_Puts((char*)data, &Font_11x18, SSD1306_COLOR_WHITE);
   SSD1306_UpdateScreen();
-
+  
+  uint8_t i2c_data[] = {1,2,3,4};
+  int32_t pressure_raw;
+  float pressure = 0.0f;
+  float pressure_mid = 0.0f;
   /* Infinite loop */
   while (1)
   {
+    for(uint8_t i = 0; i < 20; i++)
+    {
+      i2c_data[0] = 0x0A;
+      HAL_I2C_Mem_Write(&hi2c3, 0x6D << 1, 0x30, 1, i2c_data, 1, 100);
+      // HAL_Delay(1);
+      HAL_I2C_Mem_Read(&hi2c3, 0x6D << 1, 0x06, 1, i2c_data, 3, 100);
+      pressure_raw = i2c_data[0] << 24;
+      pressure_raw += i2c_data[1] << 16;
+      pressure_raw += i2c_data[2] << 8;
+      pressure_raw = pressure_raw >> 8;
+      pressure = (float)pressure_raw / 4096.0f;
+      pressure_mid = (pressure_mid + 0.05f * pressure) / 1.05f;
+    }
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(500);
+    
+    SSD1306_Fill(SSD1306_COLOR_BLACK);
+    sprintf ((char*)data, "%+.1f", pressure_mid);
+    SSD1306_GotoXY(0, 0);
+    SSD1306_Puts((char*)data, &Font_11x18, SSD1306_COLOR_WHITE);
+    SSD1306_UpdateScreen();
+    // HAL_Delay(500);
   }
 }
 
